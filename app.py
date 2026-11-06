@@ -21,7 +21,7 @@ while True:
 print(filenames)
 
 #QUESTION 2
-product_description = {}
+product_descriptions = {}
 product_prices = {}
 
 
@@ -29,8 +29,8 @@ df1 = pd.read_excel(directory + 'ProductData.xlsx', sheet_name = "Descriptions")
 for index,row in df1.iterrows():
     unit = row['Unit number']
     desc = row['Description']
-    product_description[unit] = desc
-display(product_description)
+    product_descriptions[unit] = desc
+display(product_descriptions)
 
 
 df2 = pd.read_excel(directory + 'ProductData.xlsx', sheet_name = "Prices")
@@ -80,7 +80,7 @@ def get_order_data (invoice_num, filename, directory):
         order_data['Quantity1'] = str(selected_sheet['C25'].value)
         amount1 = product_prices[selected_sheet['B25'].value]*selected_sheet['C25'].value
         order_data['Amount1'] = f'${amount1:,.2f}'
-        order_data['Description1'] = product_description[selected_sheet['B25'].value]
+        order_data['Description1'] = product_descriptions[selected_sheet['B25'].value]
         total = total + product_prices[selected_sheet['B25'].value]*selected_sheet['C25'].value
 
     if selected_sheet['C26'].value is not None: 
@@ -89,7 +89,7 @@ def get_order_data (invoice_num, filename, directory):
         order_data['Quantity2'] = str(selected_sheet['C26'].value)
         amount2 = product_prices[selected_sheet['B26'].value]*selected_sheet['C26'].value
         order_data['Amount2'] = f'${amount2:,.2f}'
-        order_data['Description2'] = product_description[selected_sheet['B26'].value] 
+        order_data['Description2'] = product_descriptions[selected_sheet['B26'].value] 
         total = total + product_prices[selected_sheet['B26'].value]*selected_sheet['C26'].value
 
     if selected_sheet['C27'].value is not None: 
@@ -98,7 +98,7 @@ def get_order_data (invoice_num, filename, directory):
         order_data['Quantity3'] = str(selected_sheet['C27'].value)
         amount3 = product_prices[selected_sheet['B27'].value]*selected_sheet['C27'].value
         order_data['Amount3'] = f'${amount3:,.2f}'
-        order_data['Description3'] = product_description[selected_sheet['B27'].value] 
+        order_data['Description3'] = product_descriptions[selected_sheet['B27'].value] 
         total = total + product_prices[selected_sheet['B27'].value]*selected_sheet['C27'].value
 
     if selected_sheet['C28'].value is not None: 
@@ -107,24 +107,22 @@ def get_order_data (invoice_num, filename, directory):
         order_data['Quantity4'] = str(selected_sheet['C28'].value)
         amount4 = product_prices[selected_sheet['B28'].value]*selected_sheet['C28'].value
         order_data['Amount4'] = f'${amount4:,.2f}'
-        order_data['Description4'] = product_description[selected_sheet['B28'].value] 
+        order_data['Description4'] = product_descriptions[selected_sheet['B28'].value] 
         total = total + product_prices[selected_sheet['B28'].value]*selected_sheet['C28'].value
    
     order_data['Total'] = f'${total:,.2f}' 
 
 
-    order_data['Description0'] = product_description[selected_sheet['B24'].value]
+    order_data['Description0'] = product_descriptions[selected_sheet['B24'].value]
 
 
     return order_data, name, email, date
 
-get_order_data('8515',"Order2.xlsx", directory)
 
 #QUESTION 4
 def create_invoice (invoice_num, order_data, directory):
     create_pdf("MasterInvoice.pdf", f"Invoice {invoice_num}.pdf", order_data)
 
-create_invoice(8515, get_order_data('8515',"Order2.xlsx", directory)[0], directory)
 
 #QUESTION 5
 gmail_password_path = select_file('Please select the gmail password file')
@@ -181,7 +179,6 @@ def send_email (invoice_num, name, email, date, directory):
 
     #WHAT DO I RETURN FOR THE FUNCTION 
     
-send_email ('8515', 'Thomas Holt', 'eliana.laclare@gmail.com', '11/13/2023', directory)
 
 #QUESTION 6
 filenames = os.listdir(directory)
